@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Users Requests
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                Admin Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link text-white">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a href="{{ url_for('manage_treks') }}" class="nav-link text-white">
+                    <i class="bi bi-map"></i> Manage Treks
+                </a>
+                <a href="{{ url_for('manage_staff') }}" class="nav-link text-white">
+                    <i class="bi bi-people"></i> Staff
+                </a>
+                <a href="{{ url_for('bookings') }}" class="nav-link text-white">
+                    <i class="bi bi-journal-check"></i> Bookings
+                </a>
+                <a href="{{ url_for('manage_users') }}" class="nav-link bg-primary text-white rounded">
+                    <i class="bi bi-person"></i> Users
+                </a>
+                <a href="{{ url_for('admin_history') }}" class="nav-link text-white">
+                    <i class="bi bi-clock-history"></i> History
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10 mt-4">
+            <h2 class="fw-bold text-primary"><i class="bi bi-people-fill"></i> Manage Users</h2>
+            <form method="GET" action="{{ url_for('manage_users') }}" class="d-flex my-5">
+                <input type="text" class="form-control me-2" name="search" placeholder="Search User">
+                <button class="btn btn-success" type="submit"><i class="bi bi-search"></i>
+                    Search
+                </button>
+            </form>
+            <table class="table table-bordered table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Contact</th>
+                        <th scope="col">Blacklisted</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users_all %}
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.contact}}</td>
+                        <td>
+                            {% if user.blacklisted %}
+                            Yes
+                            {% else %}
+                            No
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not user.blacklisted %}
+                            <a href="{{ url_for('blacklist_user', id=user.id) }}" class="btn btn-danger btn-sm"><i class="bi bi-ban"></i>
+                                Blacklist
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('unblacklist_user', id=user.id) }}" class="btn btn-warning btn-sm"><i class="bi bi-check-circle-fill"></i>
+                                Unblacklist
+                            </a>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

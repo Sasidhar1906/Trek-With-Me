@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Trek History
+{% endblock %}
+
+{% block style %}
+
+<style>
+    .card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+
+    .card-footer {
+        background: white;
+        border-top: none;
+    }
+</style>
+
+
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                Admin Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link text-white">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a href="{{ url_for('manage_treks') }}" class="nav-link text-white">
+                    <i class="bi bi-map"></i> Manage Treks
+                </a>
+                <a href="{{ url_for('manage_staff') }}" class="nav-link text-white">
+                    <i class="bi bi-people"></i> Staff
+                </a>
+                <a href="{{ url_for('bookings') }}" class="nav-link text-white">
+                    <i class="bi bi-journal-check"></i> Bookings
+                </a>
+                <a href="{{ url_for('manage_users') }}" class="nav-link text-white">
+                    <i class="bi bi-person"></i> Users
+                </a>
+                <a href="{{ url_for('admin_history') }}" class="nav-link bg-primary text-white rounded">
+                    <i class="bi bi-clock-history"></i> History
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-4">
+                <h2 class="fw-bold text-primary"><i class="bi bi-clock-history"></i> Completed Treks</h2>
+                <form method="GET" action="{{ url_for('admin_history') }}" class="d-flex my-5">
+                    <input type="text" class="form-control me-2" name="search" placeholder="Search Previous Treks">
+                    <button class="btn btn-success" type="submit"><i class="bi bi-search"></i>
+                        Search
+                    </button>
+                </form>
+                <div class="row">
+                    {% if history %}
+
+                    {% for item in history %}
+                    {% set trek = item.trek %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow h-100">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-flag-fill"></i>
+                                    {{ trek.trek_name }}
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    <strong><i class="bi bi-geo-alt-fill text-danger"></i> Location:</strong>
+                                    {{ trek.location }}
+                                </p>
+                                <p>
+                                    <strong><i class="bi bi-bar-chart-fill text-warning"></i> Difficulty:</strong>
+                                    {{ trek.difficulty }}
+                                </p>
+                                <p>
+                                    <strong><i class="bi bi-person-workspace text-primary"></i> Staff:</strong>
+                                    {{ trek.user.name if trek.user else "Not Assigned" }}
+                                </p>
+                                <p>
+                                    <strong><i class="bi bi-people-fill text-success"></i> Participants:</strong>
+                                    {{ item.participants }}
+                                </p>
+                                <p>
+                                    <strong><i class="bi bi-calendar-event"></i> Start:</strong>
+                                    {{ trek.start_date }}
+                                </p>
+                                <p>
+                                    <strong><i class="bi bi-calendar-check"></i> End:</strong>
+                                    {{ trek.end_date }}
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <span class="badge bg-success fs-6">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Completed
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info mt-4">
+                    No completed treks found.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

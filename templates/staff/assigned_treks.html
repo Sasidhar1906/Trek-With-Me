@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Assigned Treks
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                Staff Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('staff_dashboard') }}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('assigned_treks') }}" class="nav-link text-white">
+                    My Treks
+                </a>
+                <a href="{{ url_for('participants') }}" class="nav-link text-white">
+                    Participants
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-4">
+                <h2><i class="bi bi-map"></i> My Assigned Treks</h2>
+                <form method="GET" action="{{ url_for('assigned_treks') }}" class="d-flex my-5">
+                    <input type="text" class="form-control me-2" name="search" placeholder="Search Trek">
+                    <button class="btn btn-success" type="submit">
+                        Search
+                    </button>
+                </form>
+                <div class="row mt-4">
+                    {% for trek in treks %}
+                    <div class="col-md-6">
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <h4>{{ trek.trek_name }}</h4>
+                                <p><b>Location :</b> {{ trek.location }}</p>
+                                <p><b>Difficulty :</b> {{ trek.difficulty }}</p>
+                                <p><b>Duration :</b> {{ trek.duration }} Days</p>
+                                <p>
+                                    <b>Available Slots :</b>
+                                    {{ trek.available_slots }} / {{trek.total_slots}}
+                                </p>
+                                <p>
+                                    <b>Status :</b>
+                                    {% if trek.status == "Open" %}
+                                    <span class="badge bg-success">Open</span>
+                                    {% elif trek.status == "Closed" %}
+                                    <span class="badge bg-warning text-dark">Closed</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Completed</span>
+                                    {% endif %}
+                                </p>
+                                <p><b>Description :</b> {{ trek.desc }}</p>
+                                <a href="{{url_for('update_slots', id=trek.id)}}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i>
+                                    Update Slots
+                                </a>
+                                {% if trek.status == "Open" %}
+                                <a href="{{ url_for('close_trek', id=trek.id) }}" class="btn btn-warning"><i class="bi bi-lock-fill"></i>
+                                    Close Booking
+                                </a>
+                                {% elif trek.status == "Closed" %}
+                                <a href="{{ url_for('complete_trek', id=trek.id) }}" class="btn btn-success"><i class="bi bi-check-circle-fill"></i>
+                                    Complete Trek
+                                </a>
+                                {% elif trek.status == "Completed" %}
+                                <button class="btn btn-secondary" disabled><i class="bi bi-award-fill"></i>
+                                    Completed
+                                </button>
+                                {% else %}
+                                <button class="btn btn-info" disabled>
+                                    Waiting for Admin
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

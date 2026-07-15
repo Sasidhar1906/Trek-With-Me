@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+User Dashboard
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                User Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('user_dashboard') }}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('browse_treks') }}" class="nav-link text-white">
+                    Browse Treks
+                </a>
+                <a href="{{ url_for('my_bookings') }}" class="nav-link text-white">
+                    My Bookings
+                </a>
+                <a href="{{ url_for('history') }}" class="nav-link text-white">
+                    History
+                </a>
+                <a href="{{ url_for('profile') }}" class="nav-link text-primary">
+                    Profile
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10 mt-4">
+            <h2><i class="bi bi-speedometer2"></i> Welcome, {{user.name}}!</h2>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card shadow text-center">
+                        <div class="card-body">
+                            <h5><i class="bi bi-journal-check fs-1 text-primary"></i> Total Bookings</h5>
+                            <h2>{{ total_bookings }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow text-center">
+                        <div class="card-body">
+                            <h5><i class="bi bi-calendar-event fs-1 text-success"></i> Upcoming Treks</h5>
+                            <h2>{{ upcoming_treks }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow text-center">
+                        <div class="card-body">
+                            <h5><i class="bi bi-award-fill fs-1 text-warning"></i> Completed Treks</h5>
+                            <h2>{{ completed_treks }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h3>Available Treks</h3>
+                <table class="table table-bordered table-hover table-striped mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Trek Name</th>
+                            <th>Location</th>
+                            <th>Difficulty</th>
+                            <th>Duration</th>
+                            <th>Available Slots</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trek in treks %}
+                        <tr>
+                            <td>{{ trek.trek_name }}</td>
+                            <td>{{ trek.location }}</td>
+                            <td>{{ trek.difficulty }}</td>
+                            <td>{{ trek.duration }} Days</td>
+                            <td>{{ trek.available_slots }}</td>
+                            <td>
+                                {% if trek.available_slots > 0 and trek.status == "Open" %}
+                                <a href="{{ url_for('book_trek', id=trek.id) }}" class="btn btn-primary btn-sm">
+                                    Book
+                                </a>
+                                {% else %}
+                                <button class="btn btn-secondary btn-sm" disabled>
+                                    Not Available
+                                </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Staff Dashboard
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                Staff Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{url_for('staff_dashboard')}}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{url_for('assigned_treks')}}" class="nav-link text-white">
+                    My Treks
+                </a>
+                <a href="{{url_for('participants')}}" class="nav-link text-white">
+                    Participants
+                </a>
+                <a href="{{url_for('logout')}}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-4">
+                <h2><i class="bi bi-person-workspace"></i> Welcome {{user.name}} !</h2>
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <div class="card shadow text-center">
+                            <div class="card-body">
+                                <h5><i class="bi bi-map-fill fs-1 text-success"></i> Assinged Treks</h5>
+                                <h2>{{assigned_treks}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow text-center">
+                            <div class="card-body">
+                                <h5><i class="bi bi-people-fill fs-1 text-primary"></i> Total Trekkers</h5>
+                                <h2>{{total_trekkers}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow text-center">
+                            <div class="card-body">
+                                <h5><i class="bi bi-flag-fill fs-1 text-danger"></i> Active Treks</h5>
+                                <h2>{{active_treks}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

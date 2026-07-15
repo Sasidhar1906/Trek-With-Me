@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block style %}
+
+
+<style>
+    .home-page {
+        background: url("{{ url_for('static', filename='images/home_bg.jpg') }}") no-repeat center center;
+        background-size: cover;
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.45);
+        min-height: 100vh;
+    }
+
+    .login-box {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="home-page">
+    <div class="overlay">
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="card shadow p-4 login-box">
+                <h2 class="fw-bold text-white"> Login</h2>
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{error}}
+                </div>
+                {% endif %}
+                <form action="{{ url_for('login') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-white"><i class="bi bi-envelope-fill"></i> Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                            required>
+                        <div id="emailHelp" class="form-text text-white">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label text-white"><i class="bi bi-lock-fill"></i> Password</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-check-circle-fill"></i>
+                            Login</button>
+                    </div>
+                </form>
+                <p class="text-center my-2 text-white">
+                    Do not have an account? <a class="link-offset-2 link-underline link-underline-opacity-0 text-warning"
+                        href="{{url_for('register')}}">Register now</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

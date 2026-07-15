@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Treks
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                Admin Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link text-white">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a href="{{ url_for('manage_treks') }}" class="nav-link bg-primary text-white rounded">
+                    <i class="bi bi-map"></i> Manage Treks
+                </a>
+                <a href="{{ url_for('manage_staff') }}" class="nav-link text-white">
+                    <i class="bi bi-people"></i> Staff
+                </a>
+                <a href="{{ url_for('bookings') }}" class="nav-link text-white">
+                    <i class="bi bi-journal-check"></i> Bookings
+                </a>
+                <a href="{{ url_for('manage_users') }}" class="nav-link text-white">
+                    <i class="bi bi-person"></i> Users
+                </a>
+                <a href="{{ url_for('admin_history') }}" class="nav-link text-white">
+                    <i class="bi bi-clock-history"></i> History
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2 class="fw-bold text-primary"><i class="bi bi-map-fill"></i> Treks</h2>
+
+                    <a href="{{ url_for('add_trek') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i>
+                         Add Trek
+                    </a>
+
+                </div>
+                <form method="GET" action="{{ url_for('manage_treks') }}" class="d-flex my-5">
+                    <input type="text" class="form-control me-2" name="search" placeholder="Search Trek">
+                    <button class="btn btn-success" type="submit"><i class="bi bi-search"></i>
+                        Search
+                    </button>
+                </form>
+                <div class="row">
+                    {% for trek in treks_all %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow h-100">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    {{ trek.trek_name }}
+                                </h4>
+                                <p><strong>📍 Location:</strong> {{ trek.location }}</p>
+                                <p><strong>Difficulty:</strong> {{ trek.difficulty }}</p>
+                                <p><strong>Slots:</strong> {{ trek.available_slots }}/{{ trek.total_slots }}</p>
+                                <p><strong>Status:</strong>
+                                    {% if trek.status=="Open" %}
+                                    <span class="badge bg-success">Open</span>
+                                    {% elif trek.status=="Closed" %}
+                                    <span class="badge bg-danger">Closed</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">
+                                        {{ trek.status }}
+                                    </span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ url_for('edit_trek',id=trek.id) }}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Edit
+                                </a>
+                                <a href="{{ url_for('delete_trek',id=trek.id) }}" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

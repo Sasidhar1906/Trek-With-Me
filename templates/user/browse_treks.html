@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Browse Treks
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                User Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('user_dashboard') }}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('browse_treks') }}" class="nav-link text-white">
+                    Browse Treks
+                </a>
+                <a href="{{ url_for('my_bookings') }}" class="nav-link text-white">
+                    My Bookings
+                </a>
+                <a href="{{ url_for('history') }}" class="nav-link text-white">
+                    History
+                </a>
+                <a href="{{ url_for('profile') }}" class="nav-link text-primary">
+                    Profile
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-4">
+                <h2><i class="bi bi-map-fill"></i> Browse Treks </h2>
+                <form method="GET" action="{{ url_for('browse_treks') }}" class="row mb-4">
+                    <div class="col-md-4">
+                        <input type="text" name="search" class="form-control" placeholder="Search Trek"
+                            value="{{ request.args.get('search','') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="difficulty" class="form-control">
+                            <option value="">All Difficulty</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="location" class="form-control" placeholder="Location">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-success w-100">
+                            <i class="bi bi-search"></i> Filter
+                        </button>
+                    </div>
+                </form>
+                <div class="row">
+                    {% for trek in treks %}
+                    <div class="col-md-4">
+                        <div class="card shadow mb-4">
+                            {% if trek.trek_name == "Kedarkantha" %}
+                            <img src="{{ url_for('static', filename='images/kedarkantha.jpg') }}" class="card-img-top"
+                                height="220">
+                            {% elif trek.trek_name == "Hampta Pass" %}
+                            <img src="{{ url_for('static', filename='images/hampta.jpg') }}" class="card-img-top"
+                                height="220">
+                            {% elif trek.trek_name == "Kudremukh" %}
+                            <img src="{{ url_for('static', filename='images/kudremukh.jpg') }}" class="card-img-top"
+                                height="220">
+                            {% elif trek.trek_name == "Valley of Flowers" %}
+                            <img src="{{ url_for('static', filename='images/valley_of_flowers.jpg') }}"
+                                class="card-img-top" height="220">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/default.jpg') }}" class="card-img-top"
+                                height="220">
+                            {% endif %}
+                            <div class="card-body">
+                                <h4>{{ trek.trek_name }}</h4>
+                                <p><b>Location :</b> {{ trek.location }}</p>
+                                <p><b>Difficulty :</b> {{ trek.difficulty }}</p>
+                                <p><b>Duration :</b> {{ trek.duration }} Days</p>
+                                <p><b>Available Slots :</b> {{ trek.available_slots }}</p>
+                                <p><b>Status :</b> {{ trek.status }}</p>
+                                <a href="{{ url_for('book_trek', id=trek.id) }}" class="btn btn-primary"><i
+                                        class="bi bi-eye-fill"></i>
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

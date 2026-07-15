@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Book Trek
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                User Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('user_dashboard') }}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('browse_treks') }}" class="nav-link text-white">
+                    Browse Treks
+                </a>
+                <a href="{{ url_for('my_bookings') }}" class="nav-link text-white">
+                    My Bookings
+                </a>
+                <a href="{{ url_for('history') }}" class="nav-link text-white">
+                    History
+                </a>
+                <a href="{{ url_for('profile') }}" class="nav-link text-primary">
+                    Profile
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-5">
+                <a href="{{url_for('browse_treks')}}" class="btn btn-link mb-3"><i class="bi bi-arrow-left"></i>
+                    Back To Treks
+                </a>
+                <div class="card shadow p-4">
+                    <h2 class="mb-4"><i class="bi bi-backpack2-fill"></i> {{trek.trek_name}} </h2>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th>Location</th>
+                                    <td>{{ trek.location }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Difficulty</th>
+                                    <td>{{ trek.difficulty }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Duration</th>
+                                    <td>{{ trek.duration }} Days</td>
+                                </tr>
+                                <tr>
+                                    <th>Start Date</th>
+                                    <td>{{ trek.start_date }}</td>
+                                </tr>
+                                <tr>
+                                    <th>End Date</th>
+                                    <td>{{ trek.end_date }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Available Slots</th>
+                                    <td>{{ trek.available_slots }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Status</th>
+                                    <td>{{ trek.status }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            {% if trek.trek_name == "Kedarkantha" %}
+                            <img src="{{ url_for('static', filename='images/kedarkantha.jpg') }}" class="card-img-top"
+                                style="height:350px; object-fit:cover;">
+                            {% elif trek.trek_name == "Hampta Pass" %}
+                            <img src="{{ url_for('static', filename='images/hampta.jpg') }}" class="card-img-top"
+                                style="height:350px; object-fit:cover;">
+                            {% elif trek.trek_name == "Kudremukh" %}
+                            <img src="{{ url_for('static', filename='images/kudremukh.jpg') }}" class="card-img-top"
+                                style="height:350px; object-fit:cover;">
+                            {% elif trek.trek_name == "Valley of Flowers" %}
+                            <img src="{{ url_for('static', filename='images/valley_of_flowers.jpg') }}"
+                                class="card-img-top" style="height:350px; object-fit:cover;">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/default.jpg') }}" class="card-img-top"
+                                style="height:350px; object-fit:cover;">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                    <h5>Description</h5>
+                    <p>
+                        {{trek.desc}}
+                    </p>
+                    <div class="text-end">
+                        {% if trek.available_slots > 0 and trek.status=="Open" %}
+                        <form action="{{ url_for('book_trek', id=trek.id) }}" method="POST">
+                            <button class="btn btn-primary">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Book Now
+                            </button>
+                        </form>
+                        {% else %}
+                        <button class="btn btn-secondary" disabled>
+                            Trek Full
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

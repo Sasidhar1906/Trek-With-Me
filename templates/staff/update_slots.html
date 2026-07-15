@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Update Slots
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                Staff Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('staff_dashboard') }}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('assigned_treks') }}" class="nav-link text-white">
+                    My Treks
+                </a>
+                <a href="{{ url_for('participants') }}" class="nav-link text-white">
+                    Participants
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-5">
+                <h2>Update Available Slots</h2>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Available
+                        </label>
+                        <input type="number" name="available_slots" class="form-control"
+                            value="{{trek.available_slots}}" required>
+                    </div>
+                    <button class="btn btn-success">
+                        Save
+                    </button>
+                    <a href="{{url_for('assigned_treks')}}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

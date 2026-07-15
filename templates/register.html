@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block style %}
+
+<style>
+    .register-box {
+        width: 450px;
+        max-width: 90%;
+        padding: 20px;
+        margin: auto;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 15px;
+    }
+
+    .home-page {
+        background: url("{{ url_for('static', filename='images/home_bg.jpg') }}") no-repeat center center;
+        background-size: cover;
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.45);
+        min-height: 100vh;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+<div class="home-page">
+    <div class="overlay">
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="card p-4 shadow register-box">
+                <h2 class="fw-bold text-white"><i class="bi bi-person-plus-fill"></i> Register</h2>
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{error}}
+                </div>
+                {% endif %}
+                <form action="{{url_for('register')}}" method="POST">
+                    <div class="mb-3">
+                        <label for="FullName" class="form-label text-white"><i class="bi bi-person-fill"></i> Full Name</label>
+                        <input type="text" class="form-control" id="FullName" name="FullName"
+                            aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-white">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label text-white">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact" class="form-label text-white"><i class="bi bi-telephone-fill"></i> Contact</label>
+                        <input type="tel" class="form-control" id="contact" name="contact" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white"><i class="bi bi-person-badge-fill"></i> I am a</label>
+                        <select class="form-select" name="role" aria-label="Default select example">
+                            <option value="">Select</option>
+                            <option value="user">User</option>
+                            <option value="staff">Staff</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-check-circle-fill"></i>
+                        Register</button>
+                </form>
+                <p class="text-center my-2 text-white">
+                    Already have an account? <a class="link-offset-2 link-underline link-underline-opacity-0 text-warning"
+                        href="{{url_for('login')}}">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

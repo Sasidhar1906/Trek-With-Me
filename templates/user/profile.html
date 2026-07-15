@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                User Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('user_dashboard') }}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('browse_treks') }}" class="nav-link text-white">
+                    Browse Treks
+                </a>
+                <a href="{{ url_for('my_bookings') }}" class="nav-link text-white">
+                    My Bookings
+                </a>
+                <a href="{{ url_for('history') }}" class="nav-link text-white">
+                    History
+                </a>
+                <a href="{{ url_for('profile') }}" class="nav-link text-primary">
+                    Profile
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-4">
+                <h2><i class="bi bi-person-circle"></i> My Profile </h2>
+                <div class="card shadow mt-4">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th width="30%">Name</th>
+                                <td>{{ user.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Contact</th>
+                                <td>{{ user.contact }}</td>
+                            </tr>
+                            <tr>
+                                <th>Role</th>
+                                <td>{{ user.role }}</td>
+                            </tr>
+                        </table>
+                        <a href="{{url_for('edit_profile')}}" class="btn btn-warning"><i class="bi bi-pencil-square"></i>
+                            Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

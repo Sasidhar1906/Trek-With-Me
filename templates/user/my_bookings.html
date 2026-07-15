@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Bookings
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark min-vh-100">
+            <h4 class="text-white text-center mt-3">
+                User Panel
+            </h4>
+            <div class="nav flex-column mt-4">
+                <a href="{{ url_for('user_dashboard') }}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('browse_treks') }}" class="nav-link text-white">
+                    Browse Treks
+                </a>
+                <a href="{{ url_for('my_bookings') }}" class="nav-link text-white">
+                    My Bookings
+                </a>
+                <a href="{{ url_for('history') }}" class="nav-link text-white">
+                    History
+                </a>
+                <a href="{{ url_for('profile') }}" class="nav-link text-primary">
+                    Profile
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link text-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container mt-4">
+                <h2><i class="bi bi-journal-check"></i> My Bookings</h2>
+                {% if bookings %}
+                <table class="table table-bordered table-striped table-hover mt-4">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Trek Name</th>
+                            <th>Location</th>
+                            <th>Booking Date</th>
+                            <th>Start Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        {% set trek = Trek.query.filter_by(id=booking.trek_id).first() %}
+                        {% if trek.status!="Completed" %}
+                        <tr>
+                            <td>{{ booking.id }}</td>
+                            <td>{{ trek.trek_name }}</td>
+                            <td>{{ trek.location }}</td>
+                            <td>{{ booking.booking_date }}</td>
+                            <td>{{ trek.start_date }}</td>
+                            <td>{{ booking.status }}</td>
+                            <td>
+                                <a href="{{ url_for('cancel_booking', id=booking.id) }}" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                    <i class="bi bi-x-circle-fill"></i> Cancel
+                                </a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="alert alert-info mt-4">
+                    You have not booked any treks yet.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
